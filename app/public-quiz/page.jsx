@@ -1,47 +1,45 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import Link from 'next/link';
+'use client'
+
+import { useEffect, useState } from 'react'
+import { supabase } from '../../lib/supabaseClient'
 
 export default function PublicQuizPage() {
-  const [quizzes, setQuizzes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [quizzes, setQuizzes] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchQuizzes() {
-      const { data, error } = await supabase.from('public_quizzes').select('*');
-      if (!error) setQuizzes(data);
-      setLoading(false);
+      const { data, error } = await supabase.from('quizzes').select('*')
+      if (error) {
+        console.error('Error fetching quizzes:', error)
+      } else {
+        setQuizzes(data || [])
+      }
+      setLoading(false)
     }
-    fetchQuizzes();
-  }, []);
+
+    fetchQuizzes()
+  }, [])
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="max-w-xl mx-auto">
-        <Link href="/" className="text-indigo-600 text-sm font-medium hover:underline">← Kembali ke Beranda</Link>
-        <h1 className="text-2xl font-bold text-slate-800 mt-4 mb-2">🌍 Kuis Harian (Menu Umum)</h1>
-        <p className="text-slate-600 mb-6">Uji kemampuan bahasa Inggris kasualmu di sini.</p>
-
+    <main className="min-h-screen p-8 bg-gray-50 text-gray-900">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Kuis Bahasa Inggris Publik</h1>
         {loading ? (
-          <p className="text-slate-500">Memuat soal dari Supabase...</p>
+          <p>Memuat kuis...</p>
         ) : quizzes.length === 0 ? (
-          <p className="text-slate-500">Belum ada soal di database Supabase.</p>
+          <p>Belum ada kuis yang tersedia.</p>
         ) : (
-          quizzes.map((q, index) => (
-            <div key={q.id} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-4">
-              <p className="font-semibold text-slate-800 mb-3">{index + 1}. {q.question}</p>
-              <div className="space-y-2">
-                {q.options.map((opt, i) => (
-                  <button key={i} className="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-indigo-50 hover:border-indigo-300 transition text-sm">
-                    {opt}
-                  </button>
-                ))}
+          <div className="grid gap-4">
+            {quizzes.map((quiz) => (
+              <div key={quiz.id} className="p-4 bg-white rounded-lg shadow border">
+                <h2 className="text-xl font-semibold">{quiz.title}</h2>
+                <p className="text-gray-600 mt-2">{quiz.question}</p>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         )}
       </div>
-    </div>
-  );
+    </main>
+  )
 }
