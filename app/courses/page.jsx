@@ -1,27 +1,32 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabaseClient'
 import Link from 'next/link'
 
+const coursesData = [
+  {
+    id: 1,
+    title: 'English Grammar Dasar & Tenses',
+    category: 'Grammar',
+    duration: '15 Menit',
+    description: 'Pelajari fondasi tata bahasa Inggris dari nol mulai dari Simple Present Tense, Past Tense, hingga cara menyusun kalimat sehari-hari dengan benar.'
+  },
+  {
+    id: 2,
+    title: 'Daily Conversation & Speaking',
+    category: 'Speaking',
+    duration: '20 Menit',
+    description: 'Kumpulan frasa, sapaan, dan pola percakapan umum yang sering digunakan oleh penutur asli dalam situasi sosial maupun profesional.'
+  },
+  {
+    id: 3,
+    title: 'Essential Vocabulary Builder',
+    category: 'Vocabulary',
+    duration: '10 Menit',
+    description: 'Perkaya kosakata bahasa Inggris dengan menghafalkan kata benda, kata kerja, dan kata sifat paling populer beserta contoh penggunaannya.'
+  }
+]
+
 export default function CoursesPage() {
-  const [courses, setCourses] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchCourses() {
-      const { data, error } = await supabase.from('courses').select('*')
-      if (error) {
-        console.error('Error fetching courses:', error)
-      } else {
-        setCourses(data || [])
-      }
-      setLoading(false)
-    }
-
-    fetchCourses()
-  }, [])
-
   return (
     <main style={{
       minHeight: '100vh',
@@ -32,7 +37,7 @@ export default function CoursesPage() {
     }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* Header / Nav Kembali */}
+        {/* Nav Kembali */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <Link href="/" style={{ color: '#818cf8', textDecoration: 'none', fontSize: '14px', fontWeight: '650' }}>
             ← Kembali ke Beranda
@@ -44,39 +49,47 @@ export default function CoursesPage() {
 
         <h1 style={{ fontSize: '32px', fontWeight: '800', marginBottom: '8px' }}>Daftar Kursus Pelatihan</h1>
         <p style={{ color: '#94a3b8', fontSize: '15px', marginBottom: '32px' }}>
-          Pilih modul belajar bahasa Inggris bertahap dan terstruktur untuk meningkatkan kemampuanmu.
+          Pilih modul belajar bahasa Inggris bertahap dan terstruktur untuk meningkatkan kemampuanmu secara mandiri.
         </p>
 
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>Memuat data kursus...</div>
-        ) : courses.length === 0 ? (
-          <div style={{ 
-            background: 'rgba(255, 255, 255, 0.03)', 
-            border: '1px solid rgba(255, 255, 255, 0.08)', 
-            borderRadius: '16px', 
-            padding: '32px', 
-            textAlign: 'center',
-            color: '#94a3b8'
-          }}>
-            <p style={{ fontSize: '16px', marginBottom: '8px' }}>Belum ada kursus yang tersedia di database.</p>
-            <span style={{ fontSize: '13px', color: '#64748b' }}>Data akan otomatis muncul setelah kamu menambahkannya di Supabase.</span>
-          </div>
-        ) : (
-          <div style={{ display: 'grid', gap: '16px' }}>
-            {courses.map((course) => (
-              <div key={course.id} style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '16px',
-                padding: '20px',
-                transition: '0.2s'
-              }}>
-                <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#c084fc' }}>{course.title}</h2>
-                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.5' }}>{course.description}</p>
+        <div style={{ display: 'grid', gap: '20px' }}>
+          {coursesData.map((course) => (
+            <div key={course.id} style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '16px',
+              padding: '24px',
+              transition: '0.2s'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontSize: '12px', background: 'rgba(192, 132, 252, 0.2)', color: '#c084fc', padding: '3px 10px', borderRadius: '6px', fontWeight: 'bold' }}>
+                  {course.category}
+                </span>
+                <span style={{ fontSize: '12px', color: '#94a3b8' }}>⏱️ {course.duration}</span>
               </div>
-            ))}
-          </div>
-        )}
+
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#ffffff' }}>{course.title}</h2>
+              <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>{course.description}</p>
+              
+              <button 
+                onClick={() => alert(`Membuka modul: ${course.title}`)}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid #c084fc',
+                  color: '#c084fc',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >
+                Mulai Belajar →
+              </button>
+            </div>
+          ))}
+        </div>
+
       </div>
     </main>
   )
