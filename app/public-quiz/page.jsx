@@ -1,26 +1,55 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import { useState } from 'react'
 import Link from 'next/link'
 
+const quizData = [
+  {
+    id: 1,
+    title: 'Daily Vocabulary Challenge #1',
+    question: 'What is the past tense form of the verb "go"?',
+    options: ['Goed', 'Went', 'Gone', 'Going'],
+    answer: 'Went'
+  },
+  {
+    id: 2,
+    title: 'Grammar Basic #2',
+    question: 'Which pronoun is used for a single female person?',
+    options: ['He', 'They', 'She', 'It'],
+    answer: 'She'
+  },
+  {
+    id: 3,
+    title: 'Common Expression #3',
+    question: 'What is the meaning of "Thank you very much"?',
+    options: ['Terima kasih banyak', 'Sampai jumpa', 'Permisi', 'Selamat pagi'],
+    answer: 'Terima kasih banyak'
+  }
+]
+
 export default function PublicQuizPage() {
-  const [quizzes, setQuizzes] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [selectedAnswers, setSelectedAnswers] = useState({})
+  const [submitted, setSubmitted] = useState(false)
 
-  useEffect(() => {
-    async function fetchQuizzes() {
-      const { data, error } = await supabase.from('quizzes').select('*')
-      if (error) {
-        console.error('Error fetching quizzes:', error)
-      } else {
-        setQuizzes(data || [])
+  const handleSelect = (quizId, option) => {
+    if (submitted) return
+    setSelectedAnswers({ ...selectedAnswers, [quizId]: option })
+  }
+
+  const calculateScore = () => {
+    let score = 0
+    quizData.forEach((q) => {
+      if (selectedAnswers[q.id] === q.answer) {
+        score += 1
       }
-      setLoading(false)
-    }
+    })
+    return score
+  }
 
-    fetchQuizzes()
-  }, [])
+  const resetQuiz = () => {
+    setSelectedAnswers({})
+    setSubmitted(false)
+  }
 
   return (
     <main style={{
@@ -32,51 +61,126 @@ export default function PublicQuizPage() {
     }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* Header / Nav Kembali */}
+        {/* Nav Kembali */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <Link href="/" style={{ color: '#818cf8', textDecoration: 'none', fontSize: '14px', fontWeight: '650' }}>
             ← Kembali ke Beranda
           </Link>
           <span style={{ fontSize: '12px', background: 'rgba(99, 102, 241, 0.25)', color: '#818cf8', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(99, 102, 241, 0.4)' }}>
-            Menu Kuis Umum
+            Kuis Interaktif
           </span>
         </div>
 
         <h1 style={{ fontSize: '32px', fontWeight: '800', marginBottom: '8px' }}>Kuis Bahasa Inggris Publik</h1>
         <p style={{ color: '#94a3b8', fontSize: '15px', marginBottom: '32px' }}>
-          Uji kemampuan dasar dan perbanyak kosakata melalui latihan kuis harian tanpa batas.
+          Uji kemampuan dasar dan perbanyak kosakata melalui latihan pilihan ganda di bawah ini.
         </p>
 
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>Memuat kuis...</div>
-        ) : quizzes.length === 0 ? (
-          <div style={{ 
-            background: 'rgba(255, 255, 255, 0.03)', 
-            border: '1px solid rgba(255, 255, 255, 0.08)', 
-            borderRadius: '16px', 
-            padding: '32px', 
-            textAlign: 'center',
-            color: '#94a3b8'
+        {submitted && (
+          <div style={{
+            background: 'rgba(99, 102, 241, 0.15)',
+            border: '1px solid #818cf8',
+            borderRadius: '16px',
+            padding: '20px',
+            marginBottom: '24px',
+            textAlign: 'center'
           }}>
-            <p style={{ fontSize: '16px', marginBottom: '8px' }}>Belum ada kuis yang tersedia di database.</p>
-            <span style={{ fontSize: '13px', color: '#64748b' }}>Data kuis akan muncul setelah ditambahkan ke tabel Supabase.</span>
-          </div>
-        ) : (
-          <div style={{ display: 'grid', gap: '16px' }}>
-            {quizzes.map((quiz) => (
-              <div key={quiz.id} style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '16px',
-                padding: '20px',
-                transition: '0.2s'
-              }}>
-                <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#818cf8' }}>{quiz.title}</h2>
-                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.5' }}>{quiz.question}</p>
-              </div>
-            ))}
+            <h2 style={{ fontSize: '22px', fontWeight: 'bold', color: '#818cf8', marginBottom: '4px' }}>Hasil Kuis Kamu</h2>
+            <p style={{ fontSize: '16px', color: '#ffffff' }}>Skor kamu: <strong>{calculateScore()}</strong> dari {quizData.length}</p>
+            <button onClick={resetQuiz} style={{
+              marginTop: '12px',
+              background: '#818cf8',
+              color: '#ffffff',
+              border: 'none',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}>
+              Coba Lagi
+            </button>
           </div>
         )}
+
+        <div style={{ display: 'grid', gap: '20px' }}>
+          {quizData.map((quiz, index) => (
+            <div key={quiz.id} style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '16px',
+              padding: '20px'
+            }}>
+              <span style={{ fontSize: '12px', color: '#818cf8', fontWeight: 'bold' }}>SOAL {index + 1}</span>
+              <h2 style={{ fontSize: '18px', fontWeight: 'bold', margin: '8px 0 16px', color: '#ffffff' }}>{quiz.question}</h2>
+              
+              <div style={{ display: 'grid', gap: '10px' }}>
+                {quiz.options.map((option, optIdx) => {
+                  const isSelected = selectedAnswers[quiz.id] === option
+                  const isCorrect = submitted && option === quiz.answer
+                  const isWrong = submitted && isSelected && option !== quiz.answer
+
+                  let bgStyle = 'rgba(255, 255, 255, 0.03)'
+                  let borderStyle = '1px solid rgba(255, 255, 255, 0.1)'
+
+                  if (isSelected) {
+                    bgStyle = 'rgba(99, 102, 241, 0.2)'
+                    borderStyle = '1px solid #818cf8'
+                  }
+                  if (isCorrect) {
+                    bgStyle = 'rgba(34, 197, 94, 0.2)'
+                    borderStyle = '1px solid #22c55e'
+                  }
+                  if (isWrong) {
+                    bgStyle = 'rgba(239, 68, 68, 0.2)'
+                    borderStyle = '1px solid #ef4444'
+                  }
+
+                  return (
+                    <button
+                      key={optIdx}
+                      onClick={() => handleSelect(quiz.id, option)}
+                      style={{
+                        background: bgStyle,
+                        border: borderStyle,
+                        borderRadius: '10px',
+                        padding: '12px 16px',
+                        color: '#ffffff',
+                        textAlign: 'left',
+                        cursor: submitted ? 'default' : 'pointer',
+                        fontSize: '14px',
+                        transition: '0.2s'
+                      }}
+                    >
+                      {option}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {!submitted && (
+          <button
+            onClick={() => setSubmitted(true)}
+            style={{
+              width: '100%',
+              marginTop: '28px',
+              background: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
+              color: '#ffffff',
+              border: 'none',
+              padding: '14px',
+              borderRadius: '12px',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)'
+            }}
+          >
+            Kirim Jawaban & Lihat Skor
+          </button>
+        )}
+
       </div>
     </main>
   )
