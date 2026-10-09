@@ -57,9 +57,12 @@ export default function PublicQuizPage() {
       background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)',
       color: '#ffffff',
       fontFamily: 'system-ui, -apple-system, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
       padding: '24px'
     }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '800px', width: '100%', margin: '0 auto' }}>
         
         {/* Nav Kembali */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
@@ -181,6 +184,11 @@ export default function PublicQuizPage() {
           </button>
         )}
 
+      </div>
+
+      {/* Footer */}
+      <div style={{ maxWidth: '800px', width: '100%', margin: '40px auto 0', textAlign: 'center', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12px', color: '#64748b' }}>
+        Created By YzV & Gemini © 2026
       </div>
     </main>
   )
