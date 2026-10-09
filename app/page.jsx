@@ -4,77 +4,91 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-900 via-slate-900 to-black text-white flex flex-col justify-between p-6 sm:p-12">
-      {/* Header / Brand */}
-      <div className="max-w-4xl mx-auto w-full flex justify-between items-center py-4 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">🚀</span>
-          <span className="font-bold text-lg tracking-wide">EnglishAcademy</span>
+    <main style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)',
+      color: '#ffffff',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: '24px'
+    }}>
+      {/* Header */}
+      <div style={{
+        maxWidth: '800px',
+        width: '100%',
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingBottom: '16px',
+        borderBottom: '1px solid rgba(255,255,255,0.1)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', fontSize: '18px' }}>
+          <span>🚀</span>
+          <span>EnglishAcademy</span>
         </div>
-        <span className="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full border border-indigo-500/30">
+        <span style={{ fontSize: '12px', background: 'rgba(99, 102, 241, 0.25)', color: '#818cf8', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(99, 102, 241, 0.4)' }}>
           Next.js & Supabase
         </span>
       </div>
 
-      {/* Hero Section */}
-      <div className="max-w-4xl mx-auto w-full my-auto py-12 text-center">
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">
+      {/* Hero Content */}
+      <div style={{ maxWidth: '800px', width: '100%', margin: '0 auto', textAlign: 'center', padding: '40px 0' }}>
+        <h1 style={{ fontSize: '38px', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
           Master English Your Way
         </h1>
-        <p className="text-gray-300 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '600px', margin: '0 auto 40px', lineHeight: '1.5' }}>
           Pilih mode belajar mandiri secara umum atau ikuti modul kursus terstruktur untuk meningkatkan kemampuan bahasa Inggris kamu dengan cepat.
         </p>
 
-        {/* Action Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
-          {/* Card 1: Public Quiz */}
-          <Link 
-            href="/public-quiz"
-            className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-indigo-500/50 p-6 rounded-2xl transition-all duration-300 shadow-xl backdrop-blur-md flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-indigo-600/30 border border-indigo-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
-                🌍
-              </div>
-              <h2 className="text-xl font-bold mb-2 group-hover:text-indigo-300 transition-colors">
-                Menu Umum
-              </h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Latihan kuis harian & flashcard gratis tanpa batas untuk menguji kemampuan dasarmu.
-              </p>
-            </div>
-            <div className="mt-6 flex items-center gap-2 text-indigo-400 text-sm font-semibold">
-              <span>Mulai Kuis</span>
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </div>
+        {/* Menu Cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', textAlign: 'left' }}>
+          
+          {/* Card 1 */}
+          <Link href="/public-quiz" style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
+            padding: '24px',
+            textDecoration: 'none',
+            color: '#ffffff',
+            display: 'block',
+            transition: '0.2s'
+          }}>
+            <div style={{ fontSize: '28px', marginBottom: '12px' }}>🌍</div>
+            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#818cf8' }}>Menu Umum</h2>
+            <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.4', marginBottom: '16px' }}>
+              Latihan kuis harian & flashcard gratis tanpa batas untuk menguji kemampuan dasarmu.
+            </p>
+            <span style={{ color: '#818cf8', fontSize: '14px', fontWeight: '650' }}>Mulai Kuis →</span>
           </Link>
 
-          {/* Card 2: Courses */}
-          <Link 
-            href="/courses"
-            className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-indigo-500/50 p-6 rounded-2xl transition-all duration-300 shadow-xl backdrop-blur-md flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-purple-600/30 border border-purple-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
-                📚
-              </div>
-              <h2 className="text-xl font-bold mb-2 group-hover:text-purple-300 transition-colors">
-                Kursus Pelatihan
-              </h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Modul belajar bahasa Inggris bertahap & terstruktur langsung dari database Supabase.
-              </p>
-            </div>
-            <div className="mt-6 flex items-center gap-2 text-purple-400 text-sm font-semibold">
-              <span>Lihat Kursus</span>
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </div>
+          {/* Card 2 */}
+          <Link href="/courses" style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
+            padding: '24px',
+            textDecoration: 'none',
+            color: '#ffffff',
+            display: 'block',
+            transition: '0.2s'
+          }}>
+            <div style={{ fontSize: '28px', marginBottom: '12px' }}>📚</div>
+            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#c084fc' }}>Kursus Pelatihan</h2>
+            <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.4', marginBottom: '16px' }}>
+              Modul belajar bahasa Inggris bertahap & terstruktur langsung dari database Supabase.
+            </p>
+            <span style={{ color: '#c084fc', fontSize: '14px', fontWeight: '650' }}>Lihat Kursus →</span>
           </Link>
+
         </div>
       </div>
 
       {/* Footer */}
-      <div className="max-w-4xl mx-auto w-full text-center py-4 border-t border-white/10 text-xs text-gray-500">
+      <div style={{ maxWidth: '800px', width: '100%', margin: '0 auto', textAlign: 'center', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12px', color: '#64748b' }}>
         © 2026 English Learning Platform. Built with passion.
       </div>
     </main>
