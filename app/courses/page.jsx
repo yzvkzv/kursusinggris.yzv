@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
+import Link from 'next/link'
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState([])
@@ -22,19 +23,56 @@ export default function CoursesPage() {
   }, [])
 
   return (
-    <main className="min-h-screen p-8 bg-gray-50 text-gray-900">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Daftar Kursus Bahasa Inggris</h1>
+    <main style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)',
+      color: '#ffffff',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      padding: '24px'
+    }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        
+        {/* Header / Nav Kembali */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+          <Link href="/" style={{ color: '#818cf8', textDecoration: 'none', fontSize: '14px', fontWeight: '650' }}>
+            ← Kembali ke Beranda
+          </Link>
+          <span style={{ fontSize: '12px', background: 'rgba(192, 132, 252, 0.25)', color: '#c084fc', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(192, 132, 252, 0.4)' }}>
+            Modul Kursus
+          </span>
+        </div>
+
+        <h1 style={{ fontSize: '32px', fontWeight: '800', marginBottom: '8px' }}>Daftar Kursus Pelatihan</h1>
+        <p style={{ color: '#94a3b8', fontSize: '15px', marginBottom: '32px' }}>
+          Pilih modul belajar bahasa Inggris bertahap dan terstruktur untuk meningkatkan kemampuanmu.
+        </p>
+
         {loading ? (
-          <p>Memuat data kursus...</p>
+          <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>Memuat data kursus...</div>
         ) : courses.length === 0 ? (
-          <p>Belum ada kursus yang tersedia.</p>
+          <div style={{ 
+            background: 'rgba(255, 255, 255, 0.03)', 
+            border: '1px solid rgba(255, 255, 255, 0.08)', 
+            borderRadius: '16px', 
+            padding: '32px', 
+            textAlign: 'center',
+            color: '#94a3b8'
+          }}>
+            <p style={{ fontSize: '16px', marginBottom: '8px' }}>Belum ada kursus yang tersedia di database.</p>
+            <span style={{ fontSize: '13px', color: '#64748b' }}>Data akan otomatis muncul setelah kamu menambahkannya di Supabase.</span>
+          </div>
         ) : (
-          <div className="grid gap-4">
+          <div style={{ display: 'grid', gap: '16px' }}>
             {courses.map((course) => (
-              <div key={course.id} className="p-4 bg-white rounded-lg shadow border">
-                <h2 className="text-xl font-semibold">{course.title}</h2>
-                <p className="text-gray-600 mt-2">{course.description}</p>
+              <div key={course.id} style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                padding: '20px',
+                transition: '0.2s'
+              }}>
+                <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#c084fc' }}>{course.title}</h2>
+                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.5' }}>{course.description}</p>
               </div>
             ))}
           </div>
