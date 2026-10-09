@@ -89,7 +89,7 @@ export default function Home() {
 
       {/* Footer */}
       <div style={{ maxWidth: '800px', width: '100%', margin: '0 auto', textAlign: 'center', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12px', color: '#64748b' }}>
-        © 2026 English Learning Platform. Built with passion.
+        Created By YzV & Gemini © 2026
       </div>
     </main>
   )
