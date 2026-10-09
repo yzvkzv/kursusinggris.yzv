@@ -67,9 +67,12 @@ export default function CoursesPage() {
       background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)',
       color: '#ffffff',
       fontFamily: 'system-ui, -apple-system, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
       padding: '24px'
     }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '800px', width: '100%', margin: '0 auto' }}>
         
         {/* Nav Kembali */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
@@ -130,8 +133,7 @@ export default function CoursesPage() {
                   <div style={{
                     marginTop: '20px',
                     paddingTop: '20px',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                    animation: 'fadeIn 0.3s ease-in-out'
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)'
                   }}>
                     <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#c084fc', marginBottom: '8px' }}>📖 Ringkasan Materi</h3>
                     <p style={{ color: '#e2e8f0', fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
@@ -163,6 +165,11 @@ export default function CoursesPage() {
           })}
         </div>
 
+      </div>
+
+      {/* Footer */}
+      <div style={{ maxWidth: '800px', width: '100%', margin: '40px auto 0', textAlign: 'center', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12px', color: '#64748b' }}>
+        Created By YzV & Gemini © 2026
       </div>
     </main>
   )
